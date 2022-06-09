@@ -1,4 +1,3 @@
-import { convertToEnDigit } from "./services";
 
 interface httpRequestParams {
     method: 'POST' | 'GET' | 'PATCH' | 'UPDATE' | 'DELETE',
@@ -7,20 +6,19 @@ interface httpRequestParams {
 }
 
 
-const HTTPRequest = async <T>({method = 'GET', route = '/', body}: httpRequestParams,): Promise<T> => {
-    const request = new Request(`https://www.digikala.com${route}`, {
+const HTTPRequest = async <T>({ method = 'GET', route = '/', body }: httpRequestParams,): Promise<T> => {
+    
+    const request = new Request(`https://api.digikala.com/v1${route}`, {
         method: method,
         credentials: "same-origin",
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            token: "mpfKW9ghVTCSuBZ7qTkSmEyvL38ShZxv",
         },
-        body: body instanceof FormData ? body : convertToEnDigit(JSON.stringify(body)),
     });
     
     const apiRes: Response = await fetch(request);
-  
+
     if (apiRes.status.toString().substr(0, 1) === '4' || apiRes.status.toString().substr(0, 1) === '5') {
         if (apiRes.status === 401) {
             if (typeof window !== 'undefined') {
@@ -31,8 +29,8 @@ const HTTPRequest = async <T>({method = 'GET', route = '/', body}: httpRequestPa
             return Promise.reject(error);
         }
     }
-  
+
     return apiRes.status === 204 ? apiRes : await apiRes.json();
-  };
-  
-  export default HTTPRequest;
+};
+
+export default HTTPRequest;
