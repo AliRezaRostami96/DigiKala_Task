@@ -34,7 +34,7 @@ interface RatingModel {
     count: number
 }
 
-interface UrlModel {
+export interface UrlModel {
     base: any,
     uri: string
 }
