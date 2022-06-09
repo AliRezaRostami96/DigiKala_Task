@@ -8,7 +8,7 @@ const Routing: React.FC = () => {
     return (
         <Routes>
             <Route path="/" element={<ProductsPage />} />
-            <Route path="about" element={<ProductDetailsPage />} />
+            <Route path="product/:productId/:productName" element={<ProductDetailsPage />} />
         </Routes>
     )
 
