@@ -1,8 +1,13 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { AddToCart } from '../../../store/actions/cartAction';
 import { ProductItemProps, Translation } from '../setting';
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }: ProductItemProps): JSX.Element => {
+
+    const cartDispatch = useDispatch();
+
     return (
         <div className='py-2'>
             <div className="h-full max-w-xs bg-white px-6 pt-6 pb-2 rounded-xl shadow-lg transform hover:scale-105 transition duration-500">
@@ -20,12 +25,20 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }: ProductItemProps):
                         <span className='font-bold'>{Translation.price}: </span>
                         <span>{product.default_variant.price.selling_price}</span>
                     </p>
+
+                    <button
+                        className="mt-4 text-xl w-full text-white bg-indigo-600 py-2 rounded-xl shadow-lg"
+                        onClick={() => cartDispatch(AddToCart(product))}
+                    >
+                        add to cart
+                    </button>
+
                     <Link to={product.url.uri}>
                         <button className="mt-4 text-xl w-full text-white bg-indigo-600 py-2 rounded-xl shadow-lg">{Translation.details}</button>
                     </Link>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
