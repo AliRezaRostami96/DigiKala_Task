@@ -3,13 +3,11 @@ import { useParams } from 'react-router-dom';
 import HTTPRequest from '../../services/httpRequests';
 import { ProductDetailsModel, ResponseModel } from './setting';
 import CommentContainerComponent from "./components/commentsContainer";
-import { useSelector } from 'react-redux';
 
 const ProductDetailsComponent: React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [product, setProduct] = useState<ProductDetailsModel>();
-    const numOfCake = useSelector(state => state);
 
     const { productId } = useParams();
 
@@ -33,8 +31,6 @@ const ProductDetailsComponent: React.FC = () => {
     }
 
     useLayoutEffect(() => {
-        console.log("numOfCake");
-        console.log(numOfCake);
 
         getProduct();
     }, [])
