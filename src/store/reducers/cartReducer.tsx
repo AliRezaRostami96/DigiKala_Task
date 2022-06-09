@@ -20,3 +20,7 @@ const CartReducer: Reducer<Array<ProductDetailsModel | ProductModel>, Action> = 
 }
 
 export default CartReducer;
+
+export interface ReducerModel {
+    cartList: Array<ProductDetailsModel | ProductModel>
+}
