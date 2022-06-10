@@ -2,11 +2,16 @@ import { Box, Card, CardContent, CardMedia, IconButton, Rating, Typography } fro
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AddToCart } from '../../../store/actions/cartAction';
-import { ProductItemProps, Translation } from '../setting';
+import { AddToCart, RemoveFromCart } from '../../../store/actions/cartAction';
+import { ProductModel, Translation } from '../setting';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-const ProductItem: React.FC<ProductItemProps> = ({ product }: ProductItemProps): JSX.Element => {
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+export interface props {
+    product: ProductModel,
+    addToCart: boolean
+}
+const ProductItem: React.FC<props> = ({ product, addToCart }: props): JSX.Element => {
 
     const cartDispatch = useDispatch();
 
@@ -45,9 +50,18 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }: ProductItemProps):
                                 {getPriceFormat()}
                             </Typography>
                         </Typography>
-                        <IconButton onClick={() => cartDispatch(AddToCart(product))} aria-label="previous">
-                            <AddShoppingCartIcon className='text-green-800' />
-                        </IconButton>
+                        {
+
+                            addToCart && <IconButton onClick={() => cartDispatch(AddToCart(product))} aria-label="previous">
+                                <AddShoppingCartIcon className='text-green-800' />
+                            </IconButton>
+                        }
+                        {
+
+                            !addToCart && <IconButton onClick={() => cartDispatch(RemoveFromCart(product))} aria-label="previous">
+                                <RemoveShoppingCartIcon className='text-red-800' />
+                            </IconButton>
+                        }
                     </Box>
                 </Box>
             </Card>

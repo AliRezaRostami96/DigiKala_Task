@@ -72,7 +72,7 @@ const ProductsComponent: React.FC = () => {
                     {
                         products.map((item, index) => (
                             <Fragment key={`product_${index}`}>
-                                <ProductItem product={item} />
+                                <ProductItem product={item} addToCart={true} />
                             </Fragment>
                         )
                         )
