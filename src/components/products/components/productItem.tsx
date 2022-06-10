@@ -19,7 +19,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }: ProductItemProps):
     }
 
     return (
-        <Typography component="div" className="w-3/6 p-1">
+        <Typography component="div" className="md:w-3/6 p-1">
             <Card className='flex h-full'>
                 <Typography component="div">
                     <CardMedia
