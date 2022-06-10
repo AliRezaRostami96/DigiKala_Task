@@ -1,5 +1,8 @@
-import { ProductModel, UrlModel } from "../products/setting";
+import { ImagesModel, ProductModel, UrlModel } from "../products/setting";
 
+export const Translations = {
+    comments: "نظرات کاربران"
+}
 interface SpecificationModel {
     attributes: Array<{ title: string, values: Array<string> }>,
     title: string
@@ -32,6 +35,7 @@ export interface ProductDetailsModel extends ProductModel {
     last_comments: Array<CommentModel>,
     specifications: Array<SpecificationModel>,
     suggestion: { count: number, percentage: number },
+    images: { list: Array<ImagesModel>, main: ImagesModel }
 }
 
 export interface ResponseModel {

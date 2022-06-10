@@ -1,8 +1,10 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import HTTPRequest from '../../services/httpRequests';
 import { ProductDetailsModel, ResponseModel } from './setting';
 import CommentContainerComponent from "./components/commentsContainer";
+import { CircularProgress } from '@mui/material';
+import ProductImageComponent from './components/productImage';
 
 const ProductDetailsComponent: React.FC = () => {
 
@@ -28,15 +30,23 @@ const ProductDetailsComponent: React.FC = () => {
         }
     }
 
-    useLayoutEffect(() => {
-
+    useEffect(() => {
         getProduct();
     }, [])
 
     return (
 
         <>
-
+            {
+                loading && (
+                    <div className='fixed top-0 right-0 left-0 bottom-0 bg-slate-50 bg-opacity-60 z-50 flex justify-center items-center'>
+                        <CircularProgress size={100} />
+                    </div>
+                )
+            }
+            {
+                product && <ProductImageComponent images={product.images} />
+            }
             {
                 product && <CommentContainerComponent comments={product.last_comments} />
             }
