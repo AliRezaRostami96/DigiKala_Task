@@ -1,44 +1,57 @@
+import { Box, Card, CardContent, CardMedia, IconButton, Rating, Typography } from '@mui/material';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AddToCart } from '../../../store/actions/cartAction';
 import { ProductItemProps, Translation } from '../setting';
-
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 const ProductItem: React.FC<ProductItemProps> = ({ product }: ProductItemProps): JSX.Element => {
 
     const cartDispatch = useDispatch();
 
+    const getFloatRating = (): number => {
+        return (parseFloat((product.rating.rate).toString()) / 20)
+    }
+
+    const getPriceFormat = (): string => {
+        return (product.default_variant.price.selling_price).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+
     return (
-        <div className='py-2'>
-            <div className="h-full max-w-xs bg-white px-6 pt-6 pb-2 rounded-xl shadow-lg transform hover:scale-105 transition duration-500">
-                <div className="relative">
-                    <img className="w-full rounded-xl" src={product.images.main.url[0]} alt="image" />
-                    <p className="absolute top-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg">FREE</p>
-                </div>
-                <div className="my-4">
-                    <h2 className="mt-4 mb-2 h-14 text-gray-800 text-xl font-bold cursor-pointer">{product.title_fa}</h2>
-                    <p>
-                        <span className='font-bold'>{Translation.rate}: </span>
-                        <span>{product.default_variant.rate}</span>
-                    </p>
-                    <p>
-                        <span className='font-bold'>{Translation.price}: </span>
-                        <span>{product.default_variant.price.selling_price}</span>
-                    </p>
-
-                    <button
-                        className="mt-4 text-xl w-full text-white bg-indigo-600 py-2 rounded-xl shadow-lg"
-                        onClick={() => cartDispatch(AddToCart(product))}
-                    >
-                        add to cart
-                    </button>
-
-                    <Link to={product.url.uri}>
-                        <button className="mt-4 text-xl w-full text-white bg-indigo-600 py-2 rounded-xl shadow-lg">{Translation.details}</button>
-                    </Link>
-                </div>
-            </div>
-        </div >
+        <Typography component="div" className="w-3/6 p-1">
+            <Card className='flex h-full'>
+                <Typography component="div">
+                    <CardMedia
+                        component="img"
+                        sx={{ width: 151 }}
+                        image={product.images.main.url[0]}
+                        alt="img"
+                    />
+                    <Rating readOnly defaultValue={getFloatRating()} precision={0.1} />
+                </Typography>
+                <Box className='flex flex-col justify-between flex-1'>
+                    <CardContent className='flex'>
+                        <Link to={product.url.uri} className="no-underline text-gray-800 hover:text-black cursor-pointer">
+                            <Typography className='text-right' component="div" variant="h6">
+                                {product.title_fa}
+                            </Typography>
+                        </Link>
+                    </CardContent>
+                    <Box className='flex justify-between w-full place-self-end pl-1 pb-1'>
+                        <Typography component="div">
+                            <AttachMoneyIcon className='text-green-800' />
+                            <Typography className='text-right' component="span" variant="h6">
+                                {getPriceFormat()}
+                            </Typography>
+                        </Typography>
+                        <IconButton onClick={() => cartDispatch(AddToCart(product))} aria-label="previous">
+                            <AddShoppingCartIcon className='text-green-800' />
+                        </IconButton>
+                    </Box>
+                </Box>
+            </Card>
+        </Typography >
     )
 }
 
