@@ -62,7 +62,7 @@ const ProductsComponent: React.FC = () => {
                 </div>
             </div>
             <div className="w-5/6 px-2 flex justify-around items-stretch flex-wrap">
-                <InfiniteScrollComponent callback={infiniteScrollCall}>
+                <InfiniteScrollComponent callback={infiniteScrollCall} className="flex flex-wrap">
                     {
                         loading && (
                             <div className='fixed top-0 right-0 left-0 bottom-0 bg-slate-50 bg-opacity-60 z-50 flex justify-center items-center'>
