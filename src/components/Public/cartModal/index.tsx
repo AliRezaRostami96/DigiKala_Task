@@ -3,8 +3,8 @@ import { Alert, Button, Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { ReducerModel } from '../../../store/reducers/cartReducer';
 import { ProductDetailsModel } from '../../productDetails/setting';
+import ProductItem from '../../products/components/productItem';
 import { ProductModel } from '../../products/setting';
-import ProductComponent from './components/product';
 import { Translation } from './setting';
 
 interface props {
@@ -33,7 +33,8 @@ const CartModal: React.FC<props> = (props: props) => {
             <Modal.Body>
                 {
                     cartList.map(item => (
-                        <ProductComponent product={item} />
+                        // <ProductComponent product={item} />
+                        <ProductItem product={item} />
                     ))
                 }
                 {
