@@ -71,7 +71,7 @@ const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
                 onChange={(e) => setQuery(e.target.value)}
             />
 
-            <FormControl fullWidth>
+            <FormControl fullWidth className='mt-4 text-right'>
                 <InputLabel id="sort-label">{Translation.sort}</InputLabel>
                 <Select
                     labelId="sort-label"
@@ -80,9 +80,10 @@ const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
                     value={sort}
                     onChange={(e) => setSort(+e.target.value)}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    <MenuItem value={1}>مرتب سازی 1</MenuItem>
+                    <MenuItem value={2}>مرتب سازی 2</MenuItem>
+                    <MenuItem value={3}>مرتب سازی 3</MenuItem>
+                    <MenuItem value={4}>مرتب سازی 4</MenuItem>
                 </Select>
             </FormControl>
 
@@ -93,11 +94,12 @@ const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
                 min={initialValues['price[min]']}
                 step={1}
                 max={initialValues['price[max]']}
-                valueLabelDisplay="on"
+                valueLabelDisplay="auto"
+                className='mt-4'
                 valueLabelFormat={valueLabelFormat}
             />
 
-            <Button variant="contained" onClick={onFilter}>{Translation.filter}</Button>
+            <Button variant="contained" className='w-full' onClick={onFilter}>{Translation.filter}</Button>
         </>
     )
 }
