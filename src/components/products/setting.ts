@@ -1,7 +1,11 @@
 export const Translation = {
     details: "جزئیات",
     price: "قیمت",
-    rate: "امتیاز"
+    rate: "امتیاز",
+    search: "جستجو",
+    sort: "مرتب سازی",
+    toman: "تومان",
+    filter: "فیلتر"
 }
 
 interface ImagesModel {
