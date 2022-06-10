@@ -54,9 +54,6 @@ const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
     }
 
     const onFilter = (): void => {
-        console.log("getQueries()");
-        console.log(getQueries());
-        
         setQueries(getQueries());
 
     }

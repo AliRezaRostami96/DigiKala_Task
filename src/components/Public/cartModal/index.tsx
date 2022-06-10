@@ -14,8 +14,6 @@ interface props {
 
 const CartModal: React.FC<props> = (props: props) => {
     const cartList: Array<ProductDetailsModel | ProductModel> = useSelector((state: ReducerModel) => state.cartList);
-    console.log("CartModal");
-    console.log(cartList);
 
     return (
         <Modal

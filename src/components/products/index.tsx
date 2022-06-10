@@ -50,8 +50,6 @@ const ProductsComponent: React.FC = () => {
 
     useEffect(() => {
         getProducts();
-        console.log("useEffect");
-
     }, [queries, page])
 
     return (

@@ -21,8 +21,6 @@ const ProductDetailsComponent: React.FC = () => {
             });
 
             setProduct(res.data.product);
-            console.log(res.data.product);
-
             setLoading(false);
         } catch (error) {
             setLoading(false);
