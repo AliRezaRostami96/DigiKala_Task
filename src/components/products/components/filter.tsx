@@ -21,7 +21,7 @@ const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
     const [sort, setSort] = useState<number>(initialValues.sort);
 
     const valueLabelFormat = (value: number): string => {
-        return (value).toFixed(1).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        return (value).toString().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
 
     const minDistance = 10;

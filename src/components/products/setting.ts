@@ -99,7 +99,3 @@ export interface ResponseModel {
     },
     status: number
 }
-
-export interface ProductItemProps {
-    product: ProductModel
-}
