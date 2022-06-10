@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import CartModal from './cartModal/index';
+import CartModal from '../cartModal/index';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Badge, BadgeProps, IconButton } from '@mui/material';
+import { Alert, Badge, BadgeProps, IconButton, Snackbar } from '@mui/material';
 import { styled } from '@mui/system';
-import { ProductDetailsModel } from '../productDetails/setting';
-import { ProductModel } from '../products/setting';
-import { ReducerModel } from '../../store/reducers/cartReducer';
+import { ProductDetailsModel } from '../../productDetails/setting';
+import { ProductModel } from '../../products/setting';
+import { ReducerModel } from '../../../store/reducers/cartReducer';
 import { useSelector } from 'react-redux';
+import { SnackBarReducerModel, SnackBarStateModel } from '../../../store/reducers/snackbarReducer';
 
 interface props {
     children: React.ReactNode
@@ -25,6 +26,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 const LayoutComponent: React.FC<props> = ({ children }: props) => {
 
     const cartList: Array<ProductDetailsModel | ProductModel> = useSelector((state: ReducerModel) => state.cartList);
+    const snackbar: SnackBarStateModel = useSelector((state: SnackBarReducerModel) => state.snackbar);
     const [cartModalShow, setCartModalShowShow] = useState<boolean>(false);
 
     return (
@@ -49,6 +51,10 @@ const LayoutComponent: React.FC<props> = ({ children }: props) => {
                 show={cartModalShow}
                 setShow={() => setCartModalShowShow(false)}
             />
+
+            <Snackbar open={snackbar.value} autoHideDuration={6000}>
+                <Alert severity="success">{snackbar.message}</Alert>
+            </Snackbar>
         </>
     )
 }
