@@ -8,7 +8,7 @@ export const Translation = {
     filter: "فیلتر"
 }
 
-interface ImagesModel {
+export interface ImagesModel {
     storage_ids: any
     temporary_id: any
     thumbnail_url: any
