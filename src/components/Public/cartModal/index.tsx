@@ -1,50 +1,68 @@
+import { Alert, AppBar, Dialog, IconButton, Toolbar, Typography } from '@mui/material';
 import React from 'react';
-import { Alert, Button, Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { ReducerModel } from '../../../store/reducers/cartReducer';
 import { ProductDetailsModel } from '../../productDetails/setting';
 import ProductItem from '../../products/components/productItem';
 import { ProductModel } from '../../products/setting';
 import { Translation } from './setting';
-
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 interface props {
     show: boolean,
-    onHide: VoidFunction,
+    setShow: (v: boolean) => void,
 }
 
-const CartModal: React.FC<props> = (props: props) => {
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const CartModal: React.FC<props> = ({ show, setShow }: props) => {
     const cartList: Array<ProductDetailsModel | ProductModel> = useSelector((state: ReducerModel) => state.cartList);
 
     return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-            scrollable={true}
-        >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    {Translation.cart}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {
-                    cartList.map(item => (
-                        // <ProductComponent product={item} />
-                        <ProductItem product={item} />
-                    ))
-                }
-                {
-                    cartList.length == 0 && <Alert variant="light">
-                        {Translation.noItem}
-                    </Alert>
-                }
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={props.onHide}>{Translation.close}</Button>
-            </Modal.Footer>
-        </Modal>
+        <div>
+            <Dialog
+                fullScreen
+                open={show}
+                onClose={() => setShow(false)}
+                TransitionComponent={Transition}
+            >
+                <AppBar sx={{ position: 'relative' }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => setShow(false)}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                            {Translation.cart}
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <div className="flex flex-wrap p-2">
+                    {
+                        cartList.map(item => (
+                            <ProductItem product={item} addToCart={false}/>
+                        ))
+                    }
+                    {
+                        cartList.length == 0 && <Alert variant="outlined" severity="info" className='mt-4 mx-4'>
+                            {Translation.noItem}
+                        </Alert>
+                    }
+                </div>
+            </Dialog>
+        </div>
     )
 }
 
