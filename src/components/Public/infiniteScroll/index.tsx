@@ -2,15 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 
 interface props {
     callback: VoidFunction,
-    children: React.ReactNode
+    children: React.ReactNode,
+    className: string
 }
 
-const InfiniteScrollComponent: React.FC<props> = ({ callback, children }: props) => {
+const InfiniteScrollComponent: React.FC<props> = ({ callback, children, className }: props) => {
 
     const observer = useRef(
         new IntersectionObserver(callback)
     );
-    
+
     const lastElement = useRef(null);
 
     useEffect(() => {
@@ -29,7 +30,7 @@ const InfiniteScrollComponent: React.FC<props> = ({ callback, children }: props)
     }, [lastElement]);
 
     return (
-        <div>
+        <div className={className}>
             {children}
             <div ref={lastElement}></div>
         </div>
