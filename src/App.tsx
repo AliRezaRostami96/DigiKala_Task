@@ -15,7 +15,7 @@ function App() {
         <RTL>
           <ThemeProvider theme={theme}>
             <LayoutComponent>
-              <Routing></Routing>
+              <Routing />
             </LayoutComponent>
           </ThemeProvider>
         </RTL>
