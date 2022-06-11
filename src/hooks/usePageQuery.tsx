@@ -9,8 +9,16 @@ const UsePageQuery = (): [number, any] => {
 
     const [page, setPage] = useState(initialValue);
 
+    const getPrevuesQuery = () => {
+        const otherQuery: any = {};
+        searchParams.get("sort") && (otherQuery.sort = searchParams.get("sort"));
+        searchParams.get("price[min]") && (otherQuery['price[min]'] = searchParams.get("price[min]"));
+        searchParams.get("price[max]") && (otherQuery['price[max]'] = searchParams.get("price[max]"));
+        searchParams.get("q") && (otherQuery.q = searchParams.get("q"));
+        return otherQuery;
+    }
     useEffect(() => {
-        setSearchParams({ page: `${page}` });
+        setSearchParams({ ...getPrevuesQuery(), page: `${page}` });
     }, [page])
 
     return [page, setPage];
