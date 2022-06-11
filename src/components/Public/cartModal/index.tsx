@@ -1,5 +1,5 @@
 import { Alert, AppBar, Dialog, IconButton, Toolbar, Typography } from '@mui/material';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { ReducerModel } from '../../../store/reducers/cartReducer';
 import { ProductDetailsModel } from '../../productDetails/setting';
@@ -51,8 +51,10 @@ const CartModal: React.FC<props> = ({ show, setShow }: props) => {
                 </AppBar>
                 <div className="flex flex-wrap p-2">
                     {
-                        cartList.map(item => (
-                            <ProductItem product={item} addToCart={false}/>
+                        cartList.map((item, index) => (
+                            <Fragment key={`product_${index}`}>
+                                <ProductItem product={item} addToCart={false} />
+                            </Fragment>
                         ))
                     }
                     {
