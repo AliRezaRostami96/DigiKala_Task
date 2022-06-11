@@ -53,10 +53,13 @@ const ProductsComponent: React.FC = () => {
 
     useEffect(() => {
         getProducts(false);
+        setPage(1);
     }, [queries])
 
     useEffect(() => {
-        getProducts(true);
+
+        !loading && getProducts(true);
+        
     }, [page])
 
     return (
