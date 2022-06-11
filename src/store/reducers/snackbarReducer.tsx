@@ -1,25 +1,34 @@
+import { AlertColor } from "@mui/material";
 import { Reducer } from "redux";
 type Action = {
     type: string;
-    payload: string;
+    payload: {
+        message: string,
+        severity: AlertColor
+    }
 }
 export type SnackBarStateModel = {
     value: boolean;
-    message: string
+    message: string;
+    severity: AlertColor
 }
-const initialState: SnackBarStateModel = { value: false, message: "" };
+const initialState: SnackBarStateModel = { value: false, message: "", severity: "success" };
 
 const SnackBarReducer: Reducer<SnackBarStateModel, Action> = (state: SnackBarStateModel = initialState, action) => {
     switch (action.type) {
         case "SHOW_SNACKBAR":
             return {
                 value: true,
-                message: action.payload
+                message: action.payload.message,
+                severity: action.payload.severity
             };
         case "HIDE_SNACKBAR":
             return {
-                value: false,
-                message: ""
+                ...state,
+                ...{
+                    value: false,
+                    severity: "success"
+                }
             };
         default:
             return state

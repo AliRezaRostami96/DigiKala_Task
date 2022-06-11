@@ -1,8 +1,9 @@
+import { AlertColor } from "@mui/material"
 
-export const ShowSnackBar = (message: string) => {
+export const ShowSnackBar = (message: string, severity: AlertColor) => {
     return {
         type: "SHOW_SNACKBAR",
-        payload: message
+        payload: { message, severity }
     }
 }
 
