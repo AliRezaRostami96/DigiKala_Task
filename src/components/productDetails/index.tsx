@@ -58,7 +58,7 @@ const ProductDetailsComponent: React.FC = () => {
                     }
                 </div>
             </div>
-            <div>
+            <div className='mt-4'>
                 {
                     product && <CommentContainerComponent comments={product.last_comments} />
                 }
