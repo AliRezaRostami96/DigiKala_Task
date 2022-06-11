@@ -5,6 +5,7 @@ import { ProductDetailsModel, ResponseModel } from './setting';
 import CommentContainerComponent from "./components/commentsContainer";
 import { CircularProgress } from '@mui/material';
 import ProductImageComponent from './components/productImage';
+import ProductDescriptionComponent from './components/productDescription';
 
 const ProductDetailsComponent: React.FC = () => {
 
@@ -23,6 +24,7 @@ const ProductDetailsComponent: React.FC = () => {
             });
 
             setProduct(res.data.product);
+
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -44,13 +46,23 @@ const ProductDetailsComponent: React.FC = () => {
                     </div>
                 )
             }
-            {
-                product && <ProductImageComponent images={product.images} />
-            }
-            {
-                product && <CommentContainerComponent comments={product.last_comments} />
-            }
-
+            <div className='flex overflow-hidden'>
+                <div className='w-2/6'>
+                    {
+                        product && <ProductImageComponent images={product.images} />
+                    }
+                </div>
+                <div className='w-4/6 p-4'>
+                    {
+                        product && <ProductDescriptionComponent product={product} />
+                    }
+                </div>
+            </div>
+            <div>
+                {
+                    product && <CommentContainerComponent comments={product.last_comments} />
+                }
+            </div>
         </>
     )
 

@@ -1,7 +1,8 @@
 import { ImagesModel, ProductModel, UrlModel } from "../products/setting";
 
 export const Translations = {
-    comments: "نظرات کاربران"
+    comments: "نظرات کاربران",
+    addToCart: "افزودن به سبد خردی"
 }
 interface SpecificationModel {
     attributes: Array<{ title: string, values: Array<string> }>,
