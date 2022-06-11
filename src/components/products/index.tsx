@@ -1,12 +1,11 @@
 import { CircularProgress } from '@mui/material';
 import React, { Fragment, useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import UsePageQuery from '../../hooks/usePageQuery';
 import UseProductQuery from '../../hooks/useProductQuery';
 import HTTPRequest from '../../services/httpRequests';
-import InfiniteScrollComponent from '../Public/infiniteScroll';
 import FilterComponent from './components/filter';
 import ProductItem from './components/productItem';
-import ProductLoadingComponent from './components/productLoading';
 import { ProductModel, ResponseModel } from './setting';
 
 const ProductsComponent: React.FC = () => {
@@ -15,7 +14,7 @@ const ProductsComponent: React.FC = () => {
     const [queries, setQueries] = UseProductQuery();
     const [page, setPage] = UsePageQuery();
 
-    const getProducts = async () => {
+    const getProducts = async (mergeStatus: boolean) => {
 
         setLoading(true);
 
@@ -24,8 +23,12 @@ const ProductsComponent: React.FC = () => {
                 route: `/search/?${getQuery()}`,
                 method: "GET",
             });
-            const mergedProducts = [...products, ...res.data.products];
-            setProducts(mergedProducts);
+
+            let productsList = [...res.data.products]
+
+            mergeStatus && (productsList = productsList.concat(products));
+
+            setProducts(productsList);
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -42,15 +45,19 @@ const ProductsComponent: React.FC = () => {
         return `rows=15&has_selling_stock=1${page + minPrice + maxPrice + q + sort}`;
     }
 
-    const infiniteScrollCall = (): void => {
+    const infiniteScrollCallback = (): void => {
         !loading && setPage((val: number) => {
             return val + 1;
         })
     }
 
     useEffect(() => {
-        getProducts();
-    }, [queries, page])
+        getProducts(false);
+    }, [queries])
+
+    useEffect(() => {
+        getProducts(true);
+    }, [page])
 
     return (
         <div className="min-h-screen py-10 flex">
@@ -60,15 +67,20 @@ const ProductsComponent: React.FC = () => {
                 </div>
             </div>
             <div className="w-5/6 px-2 flex justify-around items-stretch flex-wrap">
-                <InfiniteScrollComponent callback={infiniteScrollCall} className="flex flex-wrap">
-                    {
-                        loading && (
-                            <div className='fixed top-0 right-0 left-0 bottom-0 bg-slate-50 bg-opacity-60 z-50 flex justify-center items-center'>
-                                <CircularProgress size={100} />
-                            </div>
-                        )
-                    }
 
+                {
+                    loading && (
+                        <div className='fixed top-0 right-0 left-0 bottom-0 bg-slate-50 bg-opacity-60 z-50 flex justify-center items-center'>
+                            <CircularProgress size={100} />
+                        </div>
+                    )
+                }
+                <InfiniteScroll
+                    dataLength={products.length}
+                    next={infiniteScrollCallback}
+                    hasMore={true}
+                    loader={<div> </div>}
+                >
                     {
                         products.map((item, index) => (
                             <Fragment key={`product_${index}`}>
@@ -78,7 +90,7 @@ const ProductsComponent: React.FC = () => {
                         )
 
                     }
-                </InfiniteScrollComponent>
+                </InfiniteScroll>
             </div>
         </div>
     )

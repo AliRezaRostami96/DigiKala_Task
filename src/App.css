@@ -3,3 +3,8 @@
   src: url("assets/fonts/Samim.ttf"), url("assets/fonts/Samim.woff"), url("assets/fonts/Samim.woff2"),
       url("assets/fonts/Samim.eot"), url("assets/fonts/Samim.svg");
 }
+
+.infinite-scroll-component {
+  display: flex;
+  flex-wrap: wrap;
+}
