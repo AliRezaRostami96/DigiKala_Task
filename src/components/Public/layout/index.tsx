@@ -32,7 +32,7 @@ const LayoutComponent: React.FC<props> = ({ children }: props) => {
     const [cartModalShow, setCartModalShowShow] = useState<boolean>(false);
 
     return (
-        <>
+        <div className='md:w-11/12 mx-auto'>
             <div className='text-left px-4 pt-1'>
                 <IconButton aria-label="cart" onClick={() => setCartModalShowShow(true)}>
                     {
@@ -57,7 +57,7 @@ const LayoutComponent: React.FC<props> = ({ children }: props) => {
             <Snackbar open={snackbar.value} autoHideDuration={5000} onClose={() => dispatch(HideSnackBar())}>
                 <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
             </Snackbar>
-        </>
+        </div>
     )
 }
 
