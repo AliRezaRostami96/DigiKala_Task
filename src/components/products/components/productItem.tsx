@@ -7,6 +7,7 @@ import { ProductModel, Translation } from '../setting';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import CustomRatingComponent from '../../Public/customRating';
 export interface props {
     product: ProductModel,
     addToCart: boolean
@@ -15,12 +16,10 @@ const ProductItem: React.FC<props> = ({ product, addToCart }: props): JSX.Elemen
 
     const cartDispatch = useDispatch();
 
-    const getFloatRating = (): number => {
-        return (parseFloat((product.rating.rate).toString()) / 20)
-    }
+
 
     const getPriceFormat = (): string => {
-        return (product.default_variant.price.selling_price).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        return product.default_variant.price.selling_price ? (product.default_variant.price.selling_price).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ""; 
     }
 
     return (
@@ -33,7 +32,7 @@ const ProductItem: React.FC<props> = ({ product, addToCart }: props): JSX.Elemen
                         image={product.images.main.url[0]}
                         alt="img"
                     />
-                    <Rating readOnly defaultValue={getFloatRating()} precision={0.1} />
+                    <CustomRatingComponent rate={product.rating.rate}/>
                 </Typography>
                 <Box className='flex flex-col justify-between flex-1'>
                     <CardContent className='flex'>
