@@ -13,7 +13,13 @@ const CartReducer: Reducer<Array<ProductDetailsModel | ProductModel>, Action> = 
         case "ADD_PRODUCT":
             return [...state, action.payload];
         case "REMOVE_PRODUCT":
-            return state.filter(pro => pro.id !== action.payload.id)
+            let removeIndex = -1;
+            state.every((pro, index) => {
+                removeIndex = index;
+                return pro.id !== action.payload.id
+            });
+            state.splice(removeIndex, 1)
+            return state;
         default:
             return state
     }
