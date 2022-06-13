@@ -16,14 +16,12 @@ const ProductsComponent: React.FC = () => {
     const getProducts = async (mergeStatus: boolean) => {
 
         setLoading(true);
-        console.log(getQuery());
         
         try {
             const res: ResponseModel = await HTTPRequest({
                 route: `/search/?${getQuery()}`,
                 method: "GET",
             });
-            console.log(res);
             let productsList = [...res?.data?.products]
             
             mergeStatus && (productsList = productsList.concat(products));
