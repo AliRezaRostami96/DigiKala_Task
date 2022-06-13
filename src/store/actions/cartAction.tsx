@@ -1,10 +1,8 @@
 import { AnyAction, Dispatch } from "redux";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { ProductDetailsModel } from "../../components/productDetails/setting";
 import { ProductModel } from "../../components/products/setting";
 import { Translation } from "../../components/Public/layout/setting";
-import { RootState } from "../store";
-import { HideSnackBar, ShowSnackBar } from "./snackbarAction";
+import { ShowSnackBar } from "./snackbarAction";
 
 const AddToCartAction = (Product: ProductDetailsModel | ProductModel) => {
     return {
