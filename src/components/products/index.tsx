@@ -1,7 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import React, { Fragment, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import UsePageQuery from '../../hooks/usePageQuery';
 import UseProductQuery from '../../hooks/useProductQuery';
 import HTTPRequest from '../../services/httpRequests';
 import FilterComponent from './components/filter';
@@ -12,20 +11,21 @@ const ProductsComponent: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [products, setProducts] = useState<Array<ProductModel>>([]);
     const [queries, setQueries] = UseProductQuery();
-    const [page, setPage] = UsePageQuery();
+    const [page, setPage] = UseProductQuery();
 
     const getProducts = async (mergeStatus: boolean) => {
 
         setLoading(true);
-
+        console.log(getQuery());
+        
         try {
             const res: ResponseModel = await HTTPRequest({
                 route: `/search/?${getQuery()}`,
                 method: "GET",
             });
-
-            let productsList = [...res.data.products]
-
+            console.log(res);
+            let productsList = [...res?.data?.products]
+            
             mergeStatus && (productsList = productsList.concat(products));
 
             setProducts(productsList);
@@ -41,26 +41,24 @@ const ProductsComponent: React.FC = () => {
         const maxPrice = queries['price[max]'] ? `&price[max]=${queries['price[max]']}` : '';
         const q = queries['q'] ? `&q=${queries['q']}` : '';
         const sort = queries['sort'] ? `&sort=${queries['sort']}` : '';
+        const page = `&page=${queries['page'] ?? 1}`;
 
         return `rows=15&has_selling_stock=1${page + minPrice + maxPrice + q + sort}`;
     }
 
     const infiniteScrollCallback = (): void => {
-        !loading && setPage((val: number) => {
-            return val + 1;
-        })
+        setPage({ page: page.page ? page.page + 1 : 2 });
     }
 
     useEffect(() => {
+        setPage({ page: 1 });
         getProducts(false);
-        setPage(1);
     }, [queries])
 
     useEffect(() => {
-
-        !loading && getProducts(true);
-        
+        page.page > 1 && getProducts(true);
     }, [page])
+
 
     return (
         <div className="min-h-screen py-10 flex">

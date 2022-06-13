@@ -1,46 +1,34 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-export interface ProductQueryModel {
-    sort: number,
-    'price[min]': number,
-    'price[max]': number,
-    q: string
-}
-
-interface StringProductQueryModel {
-    sort: string,
-    'price[min]': string,
-    'price[max]': string,
-    q: string
-}
-
-const UseProductQuery = (): [ProductQueryModel, any] => {
+const UseProductQuery = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const initialValue = {
-        page: Number(searchParams.get("page")) ?? "1",
-        sort: Number(searchParams.get("sort")) ?? "4",
-        "price[min]": Number(searchParams.get("price[min]")) ?? 1,
-        "price[max]": Number(searchParams.get("price[max]")) ?? 99999999,
-        q: searchParams.get("q") ?? "",
-    }
+    const [queries, setQueries] = useState(getPrevuesQueries());
 
-    const [queries, setQueries] = useState<ProductQueryModel>(initialValue);
+    const getStringQueries = (queries: any): any => {
+        const newQuery: any = {};
 
-    const getStringQueries = (q: ProductQueryModel): StringProductQueryModel => {
-        const newQuery: StringProductQueryModel = {
-            "price[max]": q['price[max]'].toString(),
-            "price[min]": q['price[min]'].toString(),
-            q: q.q,
-            sort: q.sort.toString(),
+        for (const key in queries) {
+            newQuery[key] = queries[key].toString();
         }
-        return newQuery;
+
+        return { ...getPrevuesQueries(), ...newQuery };
     }
 
-    const updateQuery = (query: ProductQueryModel): any => {
-        setSearchParams({ ...getStringQueries(query) });
-        setQueries(query);
+    function getPrevuesQueries() {
+        const prevuesQueries: any = {};
+
+        searchParams.forEach((val, key) => {
+            prevuesQueries[key] = val;
+        })
+
+        return prevuesQueries;
+    }
+
+    const updateQuery = (queries: any): any => {
+        setSearchParams({ ...getStringQueries(queries) });
+        setQueries(queries);
     }
 
     return [queries, updateQuery];

@@ -1,20 +1,22 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, Slider, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { ProductQueryModel } from '../../../hooks/useProductQuery';
+import { useSearchParams } from 'react-router-dom';
 import { Translation } from '../setting';
 
 interface props {
-    setQueries: (v: ProductQueryModel) => VoidFunction
+    setQueries: (v: any) => VoidFunction
 }
 
-const initialValues: ProductQueryModel = {
-    'price[min]': 50,
-    'price[max]': 1000000,
-    q: "",
-    sort: 4
-}
+
 
 const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialValues: any = {
+        'price[min]': searchParams.get("price[min]") ? Number(searchParams.get("price[min]")) : 50,
+        'price[max]': searchParams.get("price[max]") ? Number(searchParams.get("price[max]")) : 1000000,
+        q: searchParams.get("q") ?? "",
+        sort: searchParams.get("sort") ? Number(searchParams.get("sort")) : 4
+    }
 
     const [query, setQuery] = useState<string>(initialValues.q);
     const [priceRange, setPriceRange] = useState<number[]>([initialValues['price[min]'], initialValues['price[max]']]);
@@ -41,10 +43,10 @@ const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
         }
     };
 
-    const getQueries = (): ProductQueryModel => {
+    const getQueries = (): any => {
         const priceMin = priceRange[0];
         const priceMax = priceRange[1];
-        const queries: ProductQueryModel = {
+        const queries: any = {
             "price[min]": priceMin,
             "price[max]": priceMax,
             q: query,
