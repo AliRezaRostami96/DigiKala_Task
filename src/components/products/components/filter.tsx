@@ -79,9 +79,6 @@ const FilterComponent: React.FC<props> = ({ setQueries }: props) => {
                     value={sort}
                     onChange={(e) => setSort(+e.target.value)}
                 >
-                    <MenuItem value={1}>مرتب سازی 1</MenuItem>
-                    <MenuItem value={2}>مرتب سازی 2</MenuItem>
-                    <MenuItem value={3}>مرتب سازی 3</MenuItem>
                     <MenuItem value={4}>مرتب سازی 4</MenuItem>
                 </Select>
             </FormControl>
